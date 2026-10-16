@@ -37,7 +37,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <label for="attendance">Parteciperai? *</label><select id="attendance" name="presenza" required><option value="Si">Sì, ci sarò 🎃</option><option value="No">No, non potrò esserci</option></select>
 <p class="privacy">I dati forniti saranno usati dall’organizzatore esclusivamente per gestire le conferme alla festa. Per richieste di modifica o cancellazione, contatta direttamente l’organizzatore.</p>
 <button id="submitButton" class="btn btn-primary full" type="submit">Conferma e invia 🦇</button>
-<div id="formResult" class="result hidden" role="status" aria-live="polite"></div>
+
 </form></section>
 </div><div class="footer">HALLOWEEN PARTY 2026 · 🎃</div>
 </main>
@@ -52,16 +52,23 @@ const envelope=document.getElementById('envelope');const details=document.getEle
 function openInvite(){envelope.classList.add('opened');document.getElementById('openButton').disabled=true;setTimeout(()=>{details.classList.remove('hidden');details.scrollIntoView({behavior:'smooth',block:'start'})},700)}
 envelope.addEventListener('click',openInvite);document.getElementById('openButton').addEventListener('click',openInvite);
 function updateCountdown(){const delta=Date.parse('2026-10-31T22:30:00+01:00')-Date.now();if(delta<=0){document.getElementById('countdown').innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--acid)">🎃 È arrivata la notte di Halloween!</p>';return}let seconds=Math.floor(delta/1000);const vals=[Math.floor(seconds/86400),Math.floor(seconds%86400/3600),Math.floor(seconds%3600/60),seconds%60];['days','hours','mins','secs'].forEach((id,i)=>document.getElementById(id).textContent=String(vals[i]).padStart(2,'0'))}updateCountdown();setInterval(updateCountdown,1000);
-const form=document.getElementById('rsvpForm');const send=document.getElementById('submitButton');const result=document.getElementById('formResult');
+const form=document.getElementById('rsvpForm');const send=document.getElementById('submitButton');
 if(!isConfigured){document.getElementById('setupNotice').classList.remove('hidden');send.disabled=true}
 let pending=null;
-function showResult(text,ok){result.textContent=text;result.className='result '+(ok?'ok':'bad');send.disabled=ok}
-window.addEventListener('message',event=>{if(!pending||!event.data||event.data.type!=='HALLOWEEN_RSVP_RESPONSE'||event.data.nonce!==pending.nonce)return;clearTimeout(pending.timer);pending=null;send.textContent='Conferma e invia 🦇';if(event.data.ok){showResult('✅ Conferma registrata! Grazie, a presto 🎃',true);form.reset();Array.from(form.elements).forEach(el=>{if(el instanceof HTMLInputElement||el instanceof HTMLSelectElement)el.disabled=true})}else{showResult('⚠️ Non è stato possibile salvare la risposta. Riprova.',false);send.disabled=false}});
+window.addEventListener('message',event=>{
+ if(!pending||!event.data||event.data.type!=='HALLOWEEN_RSVP_RESPONSE'||event.data.nonce!==pending.nonce)return;
+ clearTimeout(pending.timer);pending=null;
+ if(event.data.ok){
+  form.reset();
+  Array.from(form.elements).forEach(el=>{if(el instanceof HTMLInputElement||el instanceof HTMLSelectElement)el.disabled=true});
+  send.disabled=true;
+ }else{send.disabled=false}
+});
 form.addEventListener('submit',e=>{e.preventDefault();if(!isConfigured||pending||!form.reportValidity())return;
  const nonce=Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');const body=new URLSearchParams(new FormData(form));body.set('nonce',nonce);body.set('website','');
  // Send as a regular form into a hidden iframe. The Apps Script returns only a status, never guest data.
  const post=document.createElement('form');post.method='POST';post.action=APPS_SCRIPT_URL;post.target='rsvpReceiver';post.style.display='none';for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}document.body.appendChild(post);
- send.disabled=true;send.textContent='Invio in corso…';result.classList.add('hidden');pending={nonce,timer:setTimeout(()=>{pending=null;showResult('⚠️All'ingresso 15 euro',false);send.disabled=false;send.textContent='Conferma e invia 🦇'},18000)};
+ send.disabled=true;pending={nonce,timer:setTimeout(()=>{pending=null;send.disabled=false},18000)};
  post.submit();post.remove();
 });
 </script></body></html>
