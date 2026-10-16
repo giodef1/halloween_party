@@ -68,7 +68,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <script>
 'use strict';
 // CONFIGURAZIONE: incolla qui l'URL della distribuzione Google Apps Script che termina con /exec
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpE4en0UybeptVCkqABITsnAR9cOSVhOGLNlIsMLbL5kHudfJ7NfWjF03lTaE_DItV/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDSpaAhUiITMYdfpN88DlBFbWZXduXXpheei6myy17HIPKWhqValLLJS49quzti5Ue/exec';
 const isConfigured = /^https:\/\/script\.google\.com\/macros\/s\/[^\s]+\/exec$/.test(APPS_SCRIPT_URL);
 const envelope=document.getElementById('envelope');const details=document.getElementById('details');
 function openInvite(){envelope.classList.add('opened');document.getElementById('openButton').disabled=true;setTimeout(()=>{details.classList.remove('hidden');details.scrollIntoView({behavior:'smooth',block:'start'})},700)}
