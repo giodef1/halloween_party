@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100c18">
+<title>Halloween Night 2026 🎃</title>
+<style>
+:root{color-scheme:dark;--gold:#facb78;--orange:#ff791c;--ink:#110b19}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(ellipse at top,#3c2147 0%,#160f24 42%,#08070e 100%);color:#fff4e7;overflow-x:hidden}
+body:before{content:'✦  ✧       ✦       ✧   ✦      ✧        ✦     ✧';position:fixed;top:6%;left:0;width:100%;font-size:25px;color:#bba4cc;opacity:.32;letter-spacing:24px;pointer-events:none}
+main{max-width:660px;min-height:100vh;margin:auto;padding:40px 20px 65px;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;position:relative}
+.kicker{font-weight:700;font-size:.72rem;letter-spacing:.32em;color:var(--gold);text-transform:uppercase}h1{font-family:Georgia,serif;font-size:clamp(2.8rem,11vw,5.4rem);line-height:1.04;margin:12px 0;color:var(--gold);text-shadow:0 4px 35px #f2772b55}h2{font-family:Georgia,serif;font-size:2rem;color:var(--gold)}p{line-height:1.65;max-width:480px}.sub{color:#dbcbdc}
+.envelope{border:0;background:transparent;cursor:pointer;display:block;margin:35px auto 14px;filter:drop-shadow(0 10px 30px #ff6c2738);transition:transform .25s}.envelope:hover{transform:translateY(-8px) rotate(-2deg)}.envelope svg{width:min(76vw,340px);height:auto}.tap{color:#d6bdce;font-size:.92rem;animation:pulse 1.7s infinite}@keyframes pulse{50%{opacity:.48}}.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:8px;padding:15px 23px;border-radius:999px;border:1px solid #f39c4e;background:linear-gradient(125deg,#ff991a,#f04c2d);color:#170b14;font-weight:800;text-decoration:none;cursor:pointer;box-shadow:0 8px 26px #e9622730}.secondary{color:var(--gold);border-color:#a87d5f;background:#24182a;box-shadow:none}.hidden{display:none!important}.reveal{animation:show .9s both}@keyframes show{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}.panel{background:#22172dc9;border:1px solid #b07d5d77;border-radius:22px;padding:24px;width:100%;margin-top:22px;box-shadow:0 15px 60px #0004}.pumpkin{font-size:4rem;filter:drop-shadow(0 2px 28px #fd7d3e8c);animation:float 3s ease-in-out infinite}@keyframes float{50%{transform:translateY(-9px)}}.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0}.unit{border:1px solid #785064;border-radius:12px;padding:12px 3px;background:#160d20}.num{font-size:clamp(1.2rem,5vw,2rem);font-weight:800;color:var(--gold)}.label{font-size:.7rem;color:#d3bcc8}.detail{display:block;padding:6px;font-size:1rem}.small{font-size:.77rem;color:#c9b6c6;margin-top:25px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+<main>
+<section id="entrance">
+<div class="kicker">Un invito misterioso ti aspetta</div>
+<button class="envelope" id="open" aria-label="Apri l'invito di Halloween">
+<svg viewBox="0 0 340 225" aria-hidden="true"><rect x="15" y="30" width="310" height="170" rx="12" fill="#dfad6d"/><path d="M15 35 L170 143 L325 35" fill="#efce96" stroke="#9d664e" stroke-width="3"/><path d="M15 198L145 108L170 131L195 108L325 198" fill="#c78a60"/><path d="M15 198 L170 91 L325 198" fill="#e9b97a"/><circle cx="170" cy="134" r="27" fill="#741c33"/><text x="170" y="145" text-anchor="middle" font-size="31">🎃</text></svg>
+</button>
+<div class="tap">TOCCA LA BUSTA PER APRIRLA</div>
+</section>
+<section id="invite" class="hidden" aria-live="polite">
+<div class="pumpkin">🎃</div>
+<div class="kicker">Sei stato convocato...</div>
+<h1>HALLOWEEN<br>NIGHT</h1>
+<p class="sub">Le ombre si risvegliano. La notte più spaventosa dell'anno sta arrivando. <strong>Avrai il coraggio di unirti a noi?</strong></p>
+<div class="panel">
+<div class="kicker">Segna la data</div>
+<span class="detail">🗓️ Sabato 31 ottobre 2026</span>
+<span class="detail">🕤 Ore 21:30</span>
+<span class="detail">📍 Location a sorpresa</span>
+<div class="countdown" aria-label="Countdown alla festa">
+<div class="unit"><div class="num" id="days">—</div><div class="label">Giorni</div></div>
+<div class="unit"><div class="num" id="hours">—</div><div class="label">Ore</div></div>
+<div class="unit"><div class="num" id="minutes">—</div><div class="label">Minuti</div></div>
+<div class="unit"><div class="num" id="seconds">—</div><div class="label">Secondi</div></div>
+</div>
+<p>Dress code: <strong>costume obbligatorio 👻</strong></p>
+<a class="button" id="rsvp" href="https://forms.google.com/" target="_blank" rel="noopener noreferrer">👻 Conferma la tua presenza</a>
+<a class="button secondary hidden" id="map" href="#" target="_blank" rel="noopener noreferrer">📍 Apri la mappa</a>
+<p class="small">⚠️ DEMO: personalizza data, luogo e link al Google Form prima di inviarlo agli invitati.</p>
+</div>
+<button class="button secondary" id="close">✉️ Chiudi l'invito</button>
+</section>
+</main>
+<script>
+// PERSONALIZZA QUI: data in ora italiana (+01:00 dopo il cambio dell'ora di ottobre)
+const partyDate = new Date('2026-10-31T21:30:00+01:00');
+const entrance=document.getElementById('entrance'),invite=document.getElementById('invite');
+document.getElementById('open').onclick=()=>{entrance.classList.add('hidden');invite.classList.remove('hidden');invite.classList.add('reveal')};
+document.getElementById('close').onclick=()=>{invite.classList.add('hidden');entrance.classList.remove('hidden')};
+function tick(){let ms=Math.max(0,partyDate-Date.now());const days=Math.floor(ms/86400000);ms%=86400000;const hrs=Math.floor(ms/3600000);ms%=3600000;const mins=Math.floor(ms/60000);const secs=Math.floor((ms%60000)/1000);for(const [k,v] of Object.entries({days,hours:hrs,minutes:mins,seconds:secs}))document.getElementById(k).textContent=String(v).padStart(2,'0')}
+tick();setInterval(tick,1000);
+// SOSTITUISCI l'href del pulsante RSVP con il link pubblico del tuo Google Form.
+// Per la mappa, sostituisci href="#" con il link di Google Maps e rimuovi la classe "hidden".
+</script>
+</body></html>
