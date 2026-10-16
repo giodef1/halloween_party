@@ -32,6 +32,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <div id="details" class="hidden">
 <div class="info-grid"><div class="mini"><small>📅 DATA</small><strong>Sabato 31 ottobre</strong><small>2026</small></div><div class="mini"><small>🕥 ORARIO</small><strong>22:30</strong><small>Ingresso alla festa</small></div></div>
 <div class="mini"><small>📍 LOCATION</small><strong>Via Madonnelle 13</strong><small>Apri la posizione per verificare il percorso</small></div>
+<div class="mini" style="margin-top:12px;border-color:#b8ff50;box-shadow:0 0 20px #b8ff5025"><small>🎟️ QUOTA DI PARTECIPAZIONE</small><strong style="font-size:1.7rem">15 €</strong><small>A persona</small></div>
 <p><a class="btn btn-secondary full" href="https://www.google.com/maps/search/?api=1&amp;query=Via%20Madonnelle%2013" target="_blank" rel="noopener noreferrer">📍 Apri su Google Maps</a></p>
 <h3 class="center">⏳ Il conto alla rovescia</h3><div id="countdown" class="countdown" aria-live="off"><div><b id="days">--</b><small>giorni</small></div><div><b id="hours">--</b><small>ore</small></div><div><b id="mins">--</b><small>minuti</small></div><div><b id="secs">--</b><small>secondi</small></div></div>
 <a href="#rsvp" class="btn btn-primary full">🎟️ Conferma la tua presenza</a>
@@ -69,7 +70,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <script>
 'use strict';
 // CONFIGURAZIONE: incolla qui l'URL della distribuzione Google Apps Script che termina con /exec
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDSpaAhUiITMYdfpN88DlBFbWZXduXXpheei6myy17HIPKWhqValLLJS49quzti5Ue/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpE4en0UybeptVCkqABITsnAR9cOSVhOGLNlIsMLbL5kHudfJ7NfWjF03lTaE_DItV/exec';
 const isConfigured = /^https:\/\/script\.google\.com\/macros\/s\/[^\s]+\/exec$/.test(APPS_SCRIPT_URL);
 const envelope=document.getElementById('envelope');const details=document.getElementById('details');
 function openInvite(){envelope.classList.add('opened');document.getElementById('openButton').disabled=true;setTimeout(()=>{details.classList.remove('hidden');details.scrollIntoView({behavior:'smooth',block:'start'})},700)}
