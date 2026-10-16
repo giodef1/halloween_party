@@ -37,7 +37,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <label for="attendance">Parteciperai? *</label><select id="attendance" name="presenza" required><option value="Si">Sì, ci sarò 🎃</option><option value="No">No, non potrò esserci</option></select>
 <p class="privacy">I dati forniti saranno usati dall’organizzatore esclusivamente per gestire le conferme alla festa. Per richieste di modifica o cancellazione, contatta direttamente l’organizzatore.</p>
 <button id="submitButton" class="btn btn-primary full" type="submit">Conferma e invia 🦇</button>
-
+<div id="formResult" class="result hidden" role="status" aria-live="polite"></div>
 </form></section>
 </div><div class="footer">HALLOWEEN PARTY 2026 · 🎃</div>
 </main>
@@ -52,37 +52,50 @@ const envelope=document.getElementById('envelope');const details=document.getEle
 function openInvite(){envelope.classList.add('opened');document.getElementById('openButton').disabled=true;setTimeout(()=>{details.classList.remove('hidden');details.scrollIntoView({behavior:'smooth',block:'start'})},700)}
 envelope.addEventListener('click',openInvite);document.getElementById('openButton').addEventListener('click',openInvite);
 function updateCountdown(){const delta=Date.parse('2026-10-31T22:30:00+01:00')-Date.now();if(delta<=0){document.getElementById('countdown').innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--acid)">🎃 È arrivata la notte di Halloween!</p>';return}let seconds=Math.floor(delta/1000);const vals=[Math.floor(seconds/86400),Math.floor(seconds%86400/3600),Math.floor(seconds%3600/60),seconds%60];['days','hours','mins','secs'].forEach((id,i)=>document.getElementById(id).textContent=String(vals[i]).padStart(2,'0'))}updateCountdown();setInterval(updateCountdown,1000);
-const form=document.getElementById('rsvpForm');const send=document.getElementById('submitButton');
-if(!isConfigured){document.getElementById('setupNotice').classList.remove('hidden');send.disabled=true}
-// Ogni caricamento della pagina consente un solo tentativo di invio.
-// Non riabilitare il pulsante in caso di timeout: il foglio potrebbe gia' aver salvato la risposta.
-let invioAvviato = false;
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  if (!isConfigured || invioAvviato || !form.reportValidity()) return;
-  invioAvviato = true;
-  send.disabled = true;
-  send.setAttribute('aria-disabled', 'true');
-
-  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
-  const body = new URLSearchParams(new FormData(form));
-  body.set('nonce', nonce);
-  body.set('website', '');
-
-  const post = document.createElement('form');
-  post.method = 'POST';
-  post.action = APPS_SCRIPT_URL;
-  post.target = 'rsvpReceiver';
-  post.style.display = 'none';
-  for (const [key, value] of body) {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = key;
-    input.value = value;
-    post.appendChild(input);
+const form=document.getElementById('rsvpForm');
+const send=document.getElementById('submitButton');
+const result=document.getElementById('formResult');
+const receiver=document.getElementById('rsvpReceiver');
+let submitting=false;
+let nonceInFlight=null;
+let verifyTimer=null;
+function showPage(title,description){
+  form.classList.add('hidden');
+  const panel=document.getElementById('rsvp');
+  panel.innerHTML='';
+  const icon=document.createElement('div');icon.textContent='🎃';icon.style='font-size:4rem;text-align:center';
+  const h=document.createElement('h2');h.className='section-title';h.textContent=title;
+  const p=document.createElement('p');p.className='center muted';p.textContent=description;
+  panel.append(icon,h,p);panel.scrollIntoView({behavior:'smooth',block:'center'});
+}
+if(!isConfigured){document.getElementById('setupNotice').classList.remove('hidden');send.disabled=true;}
+window.addEventListener('message',event=>{
+  // Responses are sent by the Apps Script HTML iframe hosted on a Google domain.
+  const googleOrigin=/^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|google\.com)$/i.test(event.origin);
+  const m=event.data;
+  if(!googleOrigin||!submitting||!m||m.type!=='HALLOWEEN_RSVP_RESPONSE'||m.nonce!==nonceInFlight)return;
+  if(verifyTimer)clearTimeout(verifyTimer);
+  if(m.ok){
+    try{sessionStorage.setItem('halloweenRsvpDone','1')}catch(e){}
+    showPage('ISCRIZIONE CONFERMATA! 🎃','La tua risposta è stata registrata. Ti aspettiamo il 31 ottobre alle 22:30!');
+  }else{
+    showPage('Registrazione non riuscita','Non è stato possibile salvare la tua risposta. Contatta l’organizzatore prima di inviarla nuovamente.');
   }
+});
+try{if(sessionStorage.getItem('halloweenRsvpDone')==='1')showPage('HAI GIÀ RISPOSTO! 🎃','La tua conferma è già stata registrata da questo dispositivo.')}catch(e){}
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!isConfigured||submitting||!form.reportValidity())return;
+  submitting=true;
+  send.disabled=true;
+  send.textContent='Registrazione in corso…';
+  nonceInFlight=Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');
+  const body=new URLSearchParams(new FormData(form));body.set('nonce',nonceInFlight);body.set('website','');
+  const post=document.createElement('form');post.method='POST';post.action=APPS_SCRIPT_URL;post.target='rsvpReceiver';post.style.display='none';
+  for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}
   document.body.appendChild(post);
-  post.submit();
-  post.remove();
+  // Do not re-enable submit on timeout: server may have saved the guest.
+  verifyTimer=setTimeout(()=>showPage('Verifica in corso','La risposta potrebbe essere già stata salvata. Per evitare doppioni, non inviarla di nuovo: chiedi all’organizzatore di controllare la lista.'),25000);
+  post.submit();post.remove();
 });
 </script></body></html>
