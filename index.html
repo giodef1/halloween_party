@@ -46,17 +46,18 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <summary>🍸 Cosa preferisci bere? <span style="font-weight:400;color:#cbbfd7">(facoltativo)</span></summary>
 <p class="muted" style="margin:12px 0 8px;font-size:.9rem">Puoi scegliere più opzioni, oppure saltare la domanda.</p>
 <div class="drink-options">
-<label><input type="checkbox" name="bevande" value="Gin"> Gin</label>
-<label><input type="checkbox" name="bevande" value="Vodka"> Vodka</label>
-<label><input type="checkbox" name="bevande" value="Rum"> Rum</label>
-<label><input type="checkbox" name="bevande" value="Whisky"> Whisky</label>
+<label><input type="checkbox" name="bevande" value="Gin Tonic / Gin Lemon"> Gin Tonic / Gin Lemon</label>
+<label><input type="checkbox" name="bevande" value="Vodka Tonic / Vodka Lemon"> Vodka Tonic / Vodka Lemon</label>
+<label><input type="checkbox" name="bevande" value="Negroni"> Negroni</label>
+<label><input type="checkbox" name="bevande" value="Spritz"> Spritz</label>
 <label><input type="checkbox" name="bevande" value="Tequila"> Tequila</label>
-<label><input type="checkbox" name="bevande" value="Spritz / Aperol"> Spritz / Aperol</label>
+<label><input type="checkbox" name="bevande" value="Jäger"> Jäger</label>
+<label><input type="checkbox" name="bevande" value="Vino"> Vino</label>
 <label><input type="checkbox" name="bevande" value="Birra"> Birra</label>
-<label><input type="checkbox" name="bevande" value="Vino / Prosecco"> Vino / Prosecco</label>
-<label><input type="checkbox" name="bevande" value="Analcolici"> Analcolici</label>
-<label><input type="checkbox" name="bevande" value="Non bevo"> Non bevo</label>
+<label><input type="checkbox" name="bevande" value="Altro"> Altro</label>
 </div>
+<label for="otherDrink" style="font-size:.9rem;margin:12px 0 7px">Se hai selezionato Altro, specifica (facoltativo)</label>
+<input id="otherDrink" name="altro" maxlength="80" placeholder="Scrivi il drink che preferisci">
 </details>
 <button id="submitButton" class="btn btn-primary full" type="submit">Conferma e invia 🦇</button>
 <div id="formResult" class="result hidden" role="status" aria-live="polite"></div>
