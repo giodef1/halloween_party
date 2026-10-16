@@ -61,7 +61,7 @@ form.addEventListener('submit',e=>{e.preventDefault();if(!isConfigured||pending|
  const nonce=Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');const body=new URLSearchParams(new FormData(form));body.set('nonce',nonce);body.set('website','');
  // Send as a regular form into a hidden iframe. The Apps Script returns only a status, never guest data.
  const post=document.createElement('form');post.method='POST';post.action=APPS_SCRIPT_URL;post.target='rsvpReceiver';post.style.display='none';for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}document.body.appendChild(post);
- send.disabled=true;send.textContent='Invio in corso…';result.classList.add('hidden');pending={nonce,timer:setTimeout(()=>{pending=null;showResult('⚠️ Non è stato possibile verificare la conferma. Riprova più tardi.',false);send.disabled=false;send.textContent='Conferma e invia 🦇'},18000)};
+ send.disabled=true;send.textContent='Invio in corso…';result.classList.add('hidden');pending={nonce,timer:setTimeout(()=>{pending=null;showResult('⚠️All'ingresso 15 euro',false);send.disabled=false;send.textContent='Conferma e invia 🦇'},18000)};
  post.submit();post.remove();
 });
 </script></body></html>
