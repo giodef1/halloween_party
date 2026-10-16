@@ -14,6 +14,13 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 .envelope-scene{padding:45px 10px 20px;perspective:850px;display:flex;flex-direction:column;align-items:center;gap:28px}.envelope{width:min(90%,360px);height:230px;position:relative;cursor:pointer;border:0;background:none;padding:0;filter:drop-shadow(0 10px 30px #c63cfb6d);isolation:isolate}.envelope-back{position:absolute;inset:0;border-radius:9px;background:linear-gradient(135deg,#8242bb,#391a62);border:2px solid #cb82ff}.letter{position:absolute;top:15%;left:9%;width:82%;height:78%;border-radius:9px;background:linear-gradient(145deg,#eee1ff,#cdb0ec);color:#381248;padding:24px 5px 10px;text-align:center;font-size:21px;font-weight:1000;transform:translateY(0);transition:transform .95s ease;z-index:1}.letter small{display:block;font-size:12px;letter-spacing:.18em;margin-top:13px}.envelope-front{position:absolute;inset:0;z-index:3;background:linear-gradient(145deg,#7d3aac,#4b236d);clip-path:polygon(0 0,50% 53%,100% 0,100% 100%,0 100%);border-radius:8px}.flap{position:absolute;inset:0;z-index:4;background:#a85be0;clip-path:polygon(0 0,100% 0,50% 57%);transform-origin:top center;transition:transform .75s;backface-visibility:hidden}.seal{position:absolute;left:calc(50% - 27px);top:calc(55% - 27px);height:54px;width:54px;border-radius:50%;background:#ccff65;z-index:5;display:grid;place-items:center;font-size:29px;box-shadow:0 0 24px #baff67;transition:opacity .3s}.opened .flap{transform:rotateX(180deg);z-index:0}.opened .seal{opacity:0}.opened .letter{transform:translateY(-100px);z-index:5}.hidden{display:none!important}.appear{animation:fadeUp .7s both}@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0}.mini{border:1px solid #743a9c;border-radius:16px;background:#ffffff09;text-align:center;padding:18px 10px}.mini strong{display:block;font-size:1.14rem;color:var(--acid);margin:6px 0}.mini small{color:#bdb3ca}.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0}.countdown div{text-align:center;border:1px solid #8c52ba;border-radius:14px;padding:15px 4px;background:#190b2c}.countdown b{display:block;color:var(--acid);font-size:clamp(1.4rem,6vw,2.35rem)}.countdown small{font-size:.72rem;color:#d3c2e5}.section-title{text-align:center;margin:0 0 12px;font-size:1.75rem}.center{text-align:center}.muted{color:#cbbfd7;line-height:1.55}label{display:block;margin:15px 0 7px;font-weight:700;font-size:.95rem}input,select{width:100%;padding:14px;border:1px solid #8550aa;border-radius:12px;background:#140a21;color:white;font:inherit;outline:none}input:focus,select:focus{border-color:var(--acid);box-shadow:0 0 0 3px #b8ff5033}input::placeholder{color:#9a8caa}.privacy{font-size:.78rem;color:#bcb0c9;line-height:1.55}.result{margin-top:15px;padding:13px;border-radius:12px;background:#29183c;line-height:1.5}.result.ok{border:1px solid #aafc66}.result.bad{border:1px solid #ff7290}.footer{color:#ad9abd;text-align:center;font-size:.8rem;padding-top:30px}.bats{font-size:26px;text-align:center;letter-spacing:24px;opacity:.7}a{color:inherit}a.btn{display:block}.helper{padding:12px;border:1px dashed #d59aff;border-radius:12px;color:#f5d8ff;font-size:.85rem;margin-bottom:15px}.loading{opacity:.65}@media(max-width:420px){.panel{padding:20px}.headline{font-size:3rem}.bats{letter-spacing:12px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.drink-picker{margin:20px 0 18px;border:1px solid #8c52ba;border-radius:14px;background:#160a27;padding:14px}
+.drink-picker summary{cursor:pointer;font-weight:800;color:#c6ff69;list-style-position:inside}
+.drink-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.drink-options label{display:flex;align-items:center;gap:9px;margin:0;padding:10px;border:1px solid #633789;border-radius:10px;font-size:.9rem;cursor:pointer}
+.drink-options input{width:18px;height:18px;flex:0 0 18px;accent-color:#b8ff50;margin:0}
+@media(max-width:420px){.drink-options{grid-template-columns:1fr}}
 </style>
 </head>
 <body><main>
@@ -35,7 +42,22 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <label for="lastName">Cognome *</label><input id="lastName" name="cognome" required maxlength="80" autocomplete="family-name" placeholder="Il tuo cognome">
 <label for="phone">Numero di telefono *</label><input id="phone" name="telefono" type="tel" required maxlength="25" minlength="6" autocomplete="tel" placeholder="Es. +39 333 1234567">
 <label for="attendance">Parteciperai? *</label><select id="attendance" name="presenza" required><option value="Si">Sì, ci sarò 🎃</option><option value="No">No, non potrò esserci</option></select>
-<p class="privacy">I dati forniti saranno usati dall’organizzatore esclusivamente per gestire le conferme alla festa. Per richieste di modifica o cancellazione, contatta direttamente l’organizzatore.</p>
+<details class="drink-picker" id="drinkPicker">
+<summary>🍸 Cosa preferisci bere? <span style="font-weight:400;color:#cbbfd7">(facoltativo)</span></summary>
+<p class="muted" style="margin:12px 0 8px;font-size:.9rem">Puoi scegliere più opzioni, oppure saltare la domanda.</p>
+<div class="drink-options">
+<label><input type="checkbox" name="bevande" value="Gin"> Gin</label>
+<label><input type="checkbox" name="bevande" value="Vodka"> Vodka</label>
+<label><input type="checkbox" name="bevande" value="Rum"> Rum</label>
+<label><input type="checkbox" name="bevande" value="Whisky"> Whisky</label>
+<label><input type="checkbox" name="bevande" value="Tequila"> Tequila</label>
+<label><input type="checkbox" name="bevande" value="Spritz / Aperol"> Spritz / Aperol</label>
+<label><input type="checkbox" name="bevande" value="Birra"> Birra</label>
+<label><input type="checkbox" name="bevande" value="Vino / Prosecco"> Vino / Prosecco</label>
+<label><input type="checkbox" name="bevande" value="Analcolici"> Analcolici</label>
+<label><input type="checkbox" name="bevande" value="Non bevo"> Non bevo</label>
+</div>
+</details>
 <button id="submitButton" class="btn btn-primary full" type="submit">Conferma e invia 🦇</button>
 <div id="formResult" class="result hidden" role="status" aria-live="polite"></div>
 </form></section>
@@ -46,7 +68,7 @@ button,.btn{font:inherit;border:0;border-radius:14px;padding:15px 20px;font-weig
 <script>
 'use strict';
 // CONFIGURAZIONE: incolla qui l'URL della distribuzione Google Apps Script che termina con /exec
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVlpPAszqGevO2cvub3c1kHBFtb5_4_M227KNesApO-JYedG13jIsIyFu6F0MRLyL_/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpE4en0UybeptVCkqABITsnAR9cOSVhOGLNlIsMLbL5kHudfJ7NfWjF03lTaE_DItV/exec';
 const isConfigured = /^https:\/\/script\.google\.com\/macros\/s\/[^\s]+\/exec$/.test(APPS_SCRIPT_URL);
 const envelope=document.getElementById('envelope');const details=document.getElementById('details');
 function openInvite(){envelope.classList.add('opened');document.getElementById('openButton').disabled=true;setTimeout(()=>{details.classList.remove('hidden');details.scrollIntoView({behavior:'smooth',block:'start'})},700)}
@@ -90,12 +112,12 @@ form.addEventListener('submit',e=>{
   send.disabled=true;
   send.textContent='Registrazione in corso…';
   nonceInFlight=Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');
-  const body=new URLSearchParams(new FormData(form));body.set('nonce',nonceInFlight);body.set('website','');
+  const body=new URLSearchParams(new FormData(form));body.set('bevande',body.getAll('bevande').join(', '));body.set('nonce',nonceInFlight);body.set('website','');
   const post=document.createElement('form');post.method='POST';post.action=APPS_SCRIPT_URL;post.target='rsvpReceiver';post.style.display='none';
   for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}
   document.body.appendChild(post);
   // Do not re-enable submit on timeout: server may have saved the guest.
-  verifyTimer=setTimeout(()=>showPage('La risposta potrebbe è stata salvata.'),25000);
+  verifyTimer=setTimeout(()=>showPage('Verifica in corso','La risposta potrebbe essere già stata salvata. Per evitare doppioni, non inviarla di nuovo: chiedi all’organizzatore di controllare la lista.'),25000);
   post.submit();post.remove();
 });
 </script></body></html>
