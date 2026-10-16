@@ -95,7 +95,7 @@ form.addEventListener('submit',e=>{
   for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}
   document.body.appendChild(post);
   // Do not re-enable submit on timeout: server may have saved the guest.
-  verifyTimer=setTimeout(()=>showPage('Verifica in corso','La risposta potrebbe essere già stata salvata. Per evitare doppioni, non inviarla di nuovo: chiedi all’organizzatore di controllare la lista.'),25000);
+  verifyTimer=setTimeout(()=>showPage('La risposta potrebbe è stata salvata.'),25000);
   post.submit();post.remove();
 });
 </script></body></html>
