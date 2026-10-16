@@ -54,21 +54,35 @@ envelope.addEventListener('click',openInvite);document.getElementById('openButto
 function updateCountdown(){const delta=Date.parse('2026-10-31T22:30:00+01:00')-Date.now();if(delta<=0){document.getElementById('countdown').innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--acid)">🎃 È arrivata la notte di Halloween!</p>';return}let seconds=Math.floor(delta/1000);const vals=[Math.floor(seconds/86400),Math.floor(seconds%86400/3600),Math.floor(seconds%3600/60),seconds%60];['days','hours','mins','secs'].forEach((id,i)=>document.getElementById(id).textContent=String(vals[i]).padStart(2,'0'))}updateCountdown();setInterval(updateCountdown,1000);
 const form=document.getElementById('rsvpForm');const send=document.getElementById('submitButton');
 if(!isConfigured){document.getElementById('setupNotice').classList.remove('hidden');send.disabled=true}
-let pending=null;
-window.addEventListener('message',event=>{
- if(!pending||!event.data||event.data.type!=='HALLOWEEN_RSVP_RESPONSE'||event.data.nonce!==pending.nonce)return;
- clearTimeout(pending.timer);pending=null;
- if(event.data.ok){
-  form.reset();
-  Array.from(form.elements).forEach(el=>{if(el instanceof HTMLInputElement||el instanceof HTMLSelectElement)el.disabled=true});
-  send.disabled=true;
- }else{send.disabled=false}
-});
-form.addEventListener('submit',e=>{e.preventDefault();if(!isConfigured||pending||!form.reportValidity())return;
- const nonce=Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');const body=new URLSearchParams(new FormData(form));body.set('nonce',nonce);body.set('website','');
- // Send as a regular form into a hidden iframe. The Apps Script returns only a status, never guest data.
- const post=document.createElement('form');post.method='POST';post.action=APPS_SCRIPT_URL;post.target='rsvpReceiver';post.style.display='none';for(const [k,v] of body){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=v;post.appendChild(input)}document.body.appendChild(post);
- send.disabled=true;pending={nonce,timer:setTimeout(()=>{pending=null;send.disabled=false},18000)};
- post.submit();post.remove();
+// Ogni caricamento della pagina consente un solo tentativo di invio.
+// Non riabilitare il pulsante in caso di timeout: il foglio potrebbe gia' aver salvato la risposta.
+let invioAvviato = false;
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  if (!isConfigured || invioAvviato || !form.reportValidity()) return;
+  invioAvviato = true;
+  send.disabled = true;
+  send.setAttribute('aria-disabled', 'true');
+
+  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
+  const body = new URLSearchParams(new FormData(form));
+  body.set('nonce', nonce);
+  body.set('website', '');
+
+  const post = document.createElement('form');
+  post.method = 'POST';
+  post.action = APPS_SCRIPT_URL;
+  post.target = 'rsvpReceiver';
+  post.style.display = 'none';
+  for (const [key, value] of body) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = value;
+    post.appendChild(input);
+  }
+  document.body.appendChild(post);
+  post.submit();
+  post.remove();
 });
 </script></body></html>
